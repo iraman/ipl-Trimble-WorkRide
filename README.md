@@ -7,7 +7,7 @@ Simple web app for employees to book the office shuttle (metro ↔ office). Admi
 - **Morning slots:** 7:30 AM, 8:30 AM (Metro → Office). **Book by 8 PM previous evening.**
 - **Evening slots:** 5:00 PM, 6:00 PM (Office → Metro). **Book by 3 PM same day.**
 - **Cancel:** Allowed until **1 hour before** the slot start time.
-- **No-show:** 3 consecutive no-shows → employee **cannot book for the next 2 days.**
+- **No-show:** 2 consecutive no-shows → employee **can sign in but cannot book for the next 1 day.**
 
 ## Stack
 
@@ -39,7 +39,7 @@ Open **http://localhost:5173** in the browser. The frontend proxies `/api` to th
 1. **Login** — Dummy login: choose an account from the list (no password). *Okta integration is planned; this is a placeholder.*
 2. **Book Shuttle** — Pick date and slot (bookings are for the logged-in user). Cutoff times are enforced; blocked users cannot book.
 3. **My Bookings** — View and cancel your upcoming bookings (cancel allowed until 1 hour before slot).
-4. **Admin** — Pick a date to see all bookings, assign vehicles, and mark no-shows. After 3 consecutive no-shows, the user is automatically blocked for 2 days.
+4. **Admin** — Pick a date to see all bookings, assign vehicles, and mark no-shows. After 2 consecutive no-shows, the user can sign in but cannot book for 1 day.
 
 ## Demo data
 

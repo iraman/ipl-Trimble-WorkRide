@@ -68,6 +68,12 @@ export async function getSlotCanBook(slotId, date) {
   return r.json();
 }
 
+export async function getBookableDate(date) {
+  const r = await fetch(`${API}/bookable-date?date=${date}`);
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
 export async function getVehicles() {
   const r = await fetch(`${API}/vehicles`);
   if (!r.ok) throw new Error(await r.text());

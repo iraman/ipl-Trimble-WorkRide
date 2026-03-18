@@ -66,10 +66,12 @@ app.post('/api/bookings', (req, res) => {
 
     const user = store.getUserById(Number(user_id));
     if (!user) return res.status(404).json({ error: 'User not found' });
-    if (rules.isUserBlocked(user)) return res.status(403).json({ error: 'Booking blocked due to no-show policy. You cannot book for the next 2 days.' });
+    if (rules.isUserBlocked(user)) return res.status(403).json({ error: 'Booking blocked due to no-show policy. You cannot book for the next 1 day.' });
 
     const slot = store.getSlotById(Number(slot_id));
     if (!slot) return res.status(404).json({ error: 'Slot not found' });
+    const bookable = rules.isBookableDate(booking_date);
+    if (!bookable.ok) return res.status(400).json({ error: bookable.reason });
     if (rules.isPastBookingCutoff(slot, booking_date)) return res.status(400).json({ error: 'Booking cutoff passed for this slot and date.' });
     if (rules.isSlotStartInPast(slot, booking_date)) return res.status(400).json({ error: 'This slot has already started for the selected date.' });
 
@@ -154,6 +156,17 @@ app.get('/api/slots/:id/can-book', (req, res) => {
     const pastCutoff = rules.isPastBookingCutoff(slot, date);
     const cutoff = rules.getBookingCutoff(slot, date);
     res.json({ can_book: !pastCutoff, cutoff: cutoff.toISOString(), cutoff_label: cutoff.toLocaleString() });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.get('/api/bookable-date', (req, res) => {
+  try {
+    const date = req.query.date;
+    if (!date) return res.status(400).json({ error: 'date query required' });
+    const result = rules.isBookableDate(date);
+    res.json(result);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }

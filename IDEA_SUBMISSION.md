@@ -22,7 +22,7 @@ Trimble WorkRide solves this by providing a simple booking app with clear rules 
 
 1. **Employee booking** — Employees sign in and book shuttle slots (morning: 7:30 & 8:30 Metro→Office; evening: 5:00 & 6:00 Office→Metro) with enforced cut-offs (morning: book by 8 PM previous evening; evening: book by 3 PM same day).
 2. **Cancellation policy** — Cancellation allowed until 1 hour before the slot start time.
-3. **No-show policy** — After 3 consecutive no-shows, the employee cannot book for the next 2 days, encouraging reliability and fair access.
+3. **No-show policy** — After 2 consecutive no-shows, the employee can sign in but cannot book for the next 1 day, encouraging reliability and fair access.
 4. **Admin view** — Admins see all bookings by date, assign vehicles to slots, and mark no-shows so transport can be planned from actual demand.
 
 The solution is a simple UI + backend (ready for Okta integration later) so it can be adopted quickly and extended with SSO when needed.
@@ -32,7 +32,7 @@ The solution is a simple UI + backend (ready for Okta integration later) so it c
 ## What is the expected impact or customer value?
 
 - **Better capacity planning** — Transport admins book the right number of vehicles based on real bookings instead of guesswork.
-- **Fewer no-shows** — The 3-strike rule discourages no-shows and frees capacity for employees who need the shuttle.
+- **Fewer no-shows** — The 2-strike rule discourages no-shows and frees capacity for employees who need the shuttle.
 - **Clear, fair rules** — Cut-off and cancellation rules are visible and enforced in one place, reducing confusion and last-minute changes.
 - **Time saved** — Employees book in seconds; admins see daily demand at a glance instead of managing spreadsheets or messages.
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { getSlots, createBooking, getSlotCanBook, getUser, getBookings } from '../api';
+import { getSlots, createBooking, getSlotCanBook, getUser, getBookings, getBookableDate } from '../api';
 
 export default function Book() {
   const { user } = useAuth();
@@ -9,7 +9,8 @@ export default function Book() {
   const [bookingDate, setBookingDate] = useState('');
   const [slotId, setSlotId] = useState('');
   const [cutoffInfo, setCutoffInfo] = useState(null);
-  const [existingOnDate, setExistingOnDate] = useState(null); // existing booking on selected date (one per day)
+  const [existingOnDate, setExistingOnDate] = useState(null);
+  const [dateBookable, setDateBookable] = useState({ ok: true }); // weekend/holiday check
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -54,6 +55,16 @@ export default function Book() {
   }, [slotId, bookingDate]);
 
   useEffect(() => {
+    if (!bookingDate) {
+      setDateBookable({ ok: true });
+      return;
+    }
+    getBookableDate(bookingDate)
+      .then(setDateBookable)
+      .catch(() => setDateBookable({ ok: true }));
+  }, [bookingDate]);
+
+  useEffect(() => {
     if (!user?.id || !bookingDate) {
       setExistingOnDate(null);
       return;
@@ -68,6 +79,7 @@ export default function Book() {
 
   const isBlocked = userWithBlock?.blocked_until && new Date(userWithBlock.blocked_until) > new Date();
   const canBook =
+    dateBookable.ok &&
     !existingOnDate &&
     cutoffInfo?.can_book &&
     !isBlocked &&
@@ -86,11 +98,16 @@ export default function Book() {
       .then((data) => {
         setSuccess('Booking confirmed.');
         setSlotId('');
-        setExistingOnDate(data || null); // show "already booked" for this date
+        setExistingOnDate(data || null);
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   };
+
+  // Clear success when user picks a different date so "already booked" and "confirmed" don't show together
+  useEffect(() => {
+    if (success) setSuccess('');
+  }, [bookingDate]);
 
   if (!user) return null;
 
@@ -113,6 +130,11 @@ export default function Book() {
                 min={todayLocal}
                 required
               />
+              {bookingDate && !dateBookable.ok && (
+                <p style={{ fontSize: '0.85rem', color: 'var(--danger)', marginTop: '0.35rem' }}>
+                  {dateBookable.reason}
+                </p>
+              )}
             </div>
             <div>
               <label style={{ display: 'block', marginBottom: '0.35rem', fontSize: '0.9rem' }}>Slot</label>
@@ -132,7 +154,7 @@ export default function Book() {
                   No slots left for today. Please select a future date.
                 </p>
               )}
-              {existingOnDate && (
+              {existingOnDate && !success && (
                 <p style={{ fontSize: '0.85rem', color: 'var(--warning)', marginTop: '0.35rem' }}>
                   You already have a booking on this date ({existingOnDate.slot_label}). Only one booking per day.
                 </p>

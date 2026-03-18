@@ -51,8 +51,9 @@ function seed() {
     const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
     state.users = [
       { id: 1, name: 'Admin User', email: 'admin@company.com', employee_id: 'EMP001', is_admin: 1, blocked_until: null, created_at: now },
-      { id: 2, name: 'John Doe', email: 'john@company.com', employee_id: 'EMP002', is_admin: 0, blocked_until: null, created_at: now },
-      { id: 3, name: 'Jane Smith', email: 'jane@company.com', employee_id: 'EMP003', is_admin: 0, blocked_until: null, created_at: now },
+      { id: 2, name: 'Test User 1', email: 'testuser1@company.com', employee_id: 'EMP002', is_admin: 0, blocked_until: null, created_at: now },
+      { id: 3, name: 'Test User 2', email: 'testuser2@company.com', employee_id: 'EMP003', is_admin: 0, blocked_until: null, created_at: now },
+      { id: 4, name: 'Test User 3', email: 'testuser3@company.com', employee_id: 'EMP004', is_admin: 0, blocked_until: null, created_at: now },
     ];
   }
   if (state.vehicles.length === 0) {

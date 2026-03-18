@@ -21,7 +21,7 @@ export default function Admin() {
   }, [date]);
 
   const handleNoShow = (id) => {
-    if (!confirm('Mark this booking as no-show? (3 consecutive no-shows block the user for 2 days)')) return;
+    if (!confirm('Mark this booking as no-show? (2 consecutive no-shows block the user from booking for 1 day)')) return;
     setError('');
     markNoShow(id)
       .then(() => setBookings((prev) => prev.map((b) => (b.id === id ? { ...b, status: 'no_show' } : b))))
