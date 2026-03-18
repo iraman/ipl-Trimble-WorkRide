@@ -1,0 +1,132 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin User",
+      "email": "admin@company.com",
+      "employee_id": "EMP001",
+      "is_admin": 1,
+      "blocked_until": null,
+      "created_at": "2026-03-18 04:53:44"
+    },
+    {
+      "id": 2,
+      "name": "John Doe",
+      "email": "john@company.com",
+      "employee_id": "EMP002",
+      "is_admin": 0,
+      "blocked_until": null,
+      "created_at": "2026-03-18 04:53:44"
+    },
+    {
+      "id": 3,
+      "name": "Jane Smith",
+      "email": "jane@company.com",
+      "employee_id": "EMP003",
+      "is_admin": 0,
+      "blocked_until": null,
+      "created_at": "2026-03-18 04:53:44"
+    }
+  ],
+  "slots": [
+    {
+      "id": 1,
+      "label": "7:30 AM - Metro to Office",
+      "time": "07:30",
+      "direction": "morning_to_office",
+      "sort_order": 1
+    },
+    {
+      "id": 2,
+      "label": "8:30 AM - Metro to Office",
+      "time": "08:30",
+      "direction": "morning_to_office",
+      "sort_order": 2
+    },
+    {
+      "id": 3,
+      "label": "5:00 PM - Office to Metro",
+      "time": "17:00",
+      "direction": "evening_to_metro",
+      "sort_order": 3
+    },
+    {
+      "id": 4,
+      "label": "6:00 PM - Office to Metro",
+      "time": "18:00",
+      "direction": "evening_to_metro",
+      "sort_order": 4
+    }
+  ],
+  "bookings": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "slot_id": 1,
+      "booking_date": "2026-03-19",
+      "status": "cancelled",
+      "vehicle_id": null,
+      "created_at": "2026-03-18 05:30:23",
+      "cancelled_at": "2026-03-18 05:30:31",
+      "no_show_at": null
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "slot_id": 3,
+      "booking_date": "2026-03-18",
+      "status": "booked",
+      "vehicle_id": null,
+      "created_at": "2026-03-18 06:35:36",
+      "cancelled_at": null,
+      "no_show_at": null
+    },
+    {
+      "id": 3,
+      "user_id": 1,
+      "slot_id": 2,
+      "booking_date": "2026-03-19",
+      "status": "cancelled",
+      "vehicle_id": null,
+      "created_at": "2026-03-18 06:41:20",
+      "cancelled_at": "2026-03-18 06:41:26",
+      "no_show_at": null
+    },
+    {
+      "id": 4,
+      "user_id": 1,
+      "slot_id": 2,
+      "booking_date": "2026-03-19",
+      "status": "cancelled",
+      "vehicle_id": null,
+      "created_at": "2026-03-18 07:00:39",
+      "cancelled_at": "2026-03-18 07:00:49",
+      "no_show_at": null
+    },
+    {
+      "id": 5,
+      "user_id": 1,
+      "slot_id": 4,
+      "booking_date": "2026-03-18",
+      "status": "booked",
+      "vehicle_id": null,
+      "created_at": "2026-03-18 07:22:07",
+      "cancelled_at": null,
+      "no_show_at": null
+    }
+  ],
+  "vehicles": [
+    {
+      "id": 1,
+      "name": "Shuttle A",
+      "capacity": 12,
+      "created_at": "2026-03-18 04:53:44"
+    },
+    {
+      "id": 2,
+      "name": "Shuttle B",
+      "capacity": 12,
+      "created_at": "2026-03-18 04:53:44"
+    }
+  ]
+}
