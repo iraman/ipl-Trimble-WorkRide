@@ -5,7 +5,16 @@ const rules = require('./rules');
 const store = require('./store');
 
 const app = express();
-app.use(cors());
+
+// Configure CORS with proper headers and credentials support
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  maxAge: 3600
+}));
+
 app.use(express.json());
 
 // ---------- Slots ----------

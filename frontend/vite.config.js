@@ -6,5 +6,11 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: { '/api': { target: 'http://localhost:3001', changeOrigin: true } },
+    headers: {
+      // Block Google Analytics and other tracking
+      'Content-Security-Policy': "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://trimblecloud.com https://stage.id.trimblecloud.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' http://localhost:3001 https://trimblecloud.com https://stage.id.trimblecloud.com; frame-src 'self';",
+      // Prevent Google from seeing referrer
+      'Referrer-Policy': 'no-referrer',
+    }
   },
 });

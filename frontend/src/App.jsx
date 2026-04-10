@@ -4,6 +4,7 @@ import Book from './pages/Book';
 import MyBookings from './pages/MyBookings';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
+import Callback from './pages/Callback';
 
 function ProtectedRoute({ children }) {
   const { user, ready } = useAuth();
@@ -32,6 +33,8 @@ export default function App() {
 
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/callback" element={<Callback />} />
+        <Route path="/logout-callback" element={<Navigate to="/login" replace />} />
         <Route path="/" element={<ProtectedRoute><Book /></ProtectedRoute>} />
         <Route path="/my-bookings" element={<ProtectedRoute><MyBookings /></ProtectedRoute>} />
         <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
