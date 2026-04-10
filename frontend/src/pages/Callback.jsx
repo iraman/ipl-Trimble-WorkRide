@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth as useTrimbleAuth } from '@trimble-oss/trimble-id-react';
 import { useAuth } from '../context/AuthContext';
-import { getUsers } from '../api';
+import { getUsers, createUser } from '../api';
 
 export default function Callback() {
   const navigate = useNavigate();
@@ -30,24 +30,21 @@ export default function Callback() {
           console.log('📤 Calling login() with dbUser');
           login(dbUser);
         } else {
-          console.log('⚠ User not in database, creating temporary user for:', user.email);
-          const tempUser = {
-            id: null,
+          console.log('⚠ User not in database, creating a new DB user for:', user.email);
+          const createdUser = await createUser({
             name: user.name || user.email,
             email: user.email,
-            trimbleId: user.sub,
-            created_at: new Date().toISOString()
-          };
-          console.log('📤 Calling login() with tempUser');
-          login(tempUser);
+          });
+          console.log('✓ Created new user in database:', createdUser.email);
+          login(createdUser);
         }
       } catch (err) {
-        console.error('✗ Error fetching users from API:', err);
+        console.error('✗ Error fetching or creating user from API:', err);
         console.log('⚠ Creating fallback temporary user');
         const tempUser = {
           name: user.name || user.email,
           email: user.email,
-          trimbleId: user.sub
+          trimbleId: user.sub,
         };
         console.log('📤 Calling login() with fallback tempUser');
         login(tempUser);

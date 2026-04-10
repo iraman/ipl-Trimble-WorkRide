@@ -83,7 +83,7 @@ export default function Book() {
     !existingOnDate &&
     cutoffInfo?.can_book &&
     !isBlocked &&
-    user &&
+    user?.id &&
     bookingDate &&
     slotId &&
     availableSlots.some((s) => String(s.id) === slotId);
