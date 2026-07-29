@@ -1,0 +1,11 @@
+{
+  "name": "trimble-workride",
+  "private": true,
+  "description": "Trimble WorkRide — office shuttle booking with Agent Governance Lifecycle (AGL)",
+  "scripts": {
+    "governance:validate": "node scripts/validate-governance.mjs",
+    "governance:manifest": "node scripts/compute-behavior-manifest.mjs",
+    "governance:test": "node scripts/governance-regression-tests.mjs",
+    "governance:check": "npm run governance:validate && npm run governance:test"
+  }
+}

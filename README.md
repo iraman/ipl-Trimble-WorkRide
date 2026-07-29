@@ -2,6 +2,32 @@
 
 Simple web app for employees to book the office shuttle (metro ↔ office). Admin can view bookings, assign vehicles, and mark no-shows.
 
+This repository includes a reference **Agent Governance Lifecycle (AGL)** setup: versioned AI behavioral assets (rules, skills, prompts) with PR review, CI validation, and traceability via `behavior-manifest.json`.
+
+## Agent Governance (AGL)
+
+Behavioral assets live in `.ai-governance/` and are loaded by Cursor via `.cursor/rules/workride-agl.mdc`.
+
+| Asset | Purpose |
+|-------|---------|
+| `rules/trimble-id-auth.md` | Trimble ID OAuth; no token storage in `localStorage` |
+| `rules/booking-policies.md` | Cutoffs, cancel window, no-show policy (aligned with `backend/rules.js`) |
+| `rules/architecture-guidelines.md` | Stack and API conventions |
+| `skills/validate-booking-rules/` | Skill for reviewing booking changes |
+| `prompts/pr-review-behavioral-assets.md` | PR review template for rule changes |
+
+**Validate locally:**
+
+```bash
+npm run governance:check      # structure + policy regression tests
+npm run governance:manifest   # refresh behavior-manifest.json hash
+```
+
+**Adoption playbook:** [.ai-governance/ADOPTION.md](./.ai-governance/ADOPTION.md)  
+**PR checklist:** [.ai-governance/PR_REVIEW_CHECKLIST.md](./.ai-governance/PR_REVIEW_CHECKLIST.md)
+
+CI runs on changes to governance files (see `.github/workflows/agl-validation.yml`).
+
 ## Rules
 
 - **Morning slots:** 7:30 AM, 8:30 AM (Metro → Office). **Book by 8 PM previous evening.**
@@ -36,7 +62,7 @@ Open **http://localhost:5173** in the browser. The frontend proxies `/api` to th
 
 ## Usage
 
-1. **Login** — Dummy login: choose an account from the list (no password). *Okta integration is planned; this is a placeholder.*
+1. **Login** — Trimble ID OAuth in production; email-based dummy login for local development (see [TRIMBLE_ID_SETUP.md](./TRIMBLE_ID_SETUP.md)).
 2. **Book Shuttle** — Pick date and slot (bookings are for the logged-in user). Cutoff times are enforced; blocked users cannot book.
 3. **My Bookings** — View and cancel your upcoming bookings (cancel allowed until 1 hour before slot).
 4. **Admin** — Pick a date to see all bookings, assign vehicles, and mark no-shows. After 2 consecutive no-shows, the user can sign in but cannot book for 1 day.
